@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riki's Yogurt</title>
+<style>
+  :root{
+    --bg: #0b0b0d;
+    --bg-soft: #16141a;
+    --card-bg: #1c1a20;
+    --cream: #fff3e0;
+    --peach: #ffb15e;
+    --strawberry: #ff6f91;
+    --mango: #ffc145;
+    --kiwi: #a9d94c;
+    --berry: #d63a6e;
+    --plain: #f5ead8;
+    --whatsapp: #25d366;
+    --whatsapp-dark: #1ebd59;
+    --text-muted: #c9c2c7;
+    --navy-frame: #0a1a3d;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  /* ===== Page frame ===== */
+  .page-frame{
+    position: fixed;
+    inset: 0;
+    border: 12px solid var(--navy-frame);
+    box-shadow: inset 0 0 30px rgba(10,26,61,0.6);
+    pointer-events: none;
+    z-index: 250;
+  }
+
+  @media (max-width: 520px){
+    .page-frame{ border-width: 7px; }
+  }
+
+  /* ===== Top emblematic banner ===== */
+  .top-banner{
+    text-align:center;
+    padding: 12px 6%;
+    background: linear-gradient(90deg, rgba(255,111,145,0.16), rgba(255,193,69,0.16), rgba(169,217,76,0.16));
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .top-banner p{
+    font-style: italic;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+    background: linear-gradient(90deg, var(--strawberry), var(--mango), var(--kiwi));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  body{
+    background: var(--bg);
+    color: var(--cream);
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  /* ===== Header ===== */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 18px 6%;
+    background: linear-gradient(180deg, rgba(255,177,94,0.08), transparent);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+
+  .logo-badge{
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: conic-gradient(from 180deg, var(--strawberry), var(--mango), var(--peach), var(--strawberry));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 1.2rem;
+    box-shadow: 0 0 18px rgba(255,177,94,0.35);
+  }
+
+  .logo span{ color: var(--mango); }
+
+  /* ===== Hero ===== */
+  .hero{
+    text-align:center;
+    padding: 70px 6% 50px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,111,145,0.12), transparent 45%),
+      radial-gradient(circle at 80% 10%, rgba(255,193,69,0.12), transparent 45%),
+      radial-gradient(circle at 50% 90%, rgba(255,177,94,0.10), transparent 50%);
+  }
+
+  .hero h1{
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 900;
+    background: linear-gradient(90deg, var(--strawberry), var(--mango), var(--peach));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 14px;
+  }
+
+  .hero p{
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    max-width: 560px;
+    margin: 0 auto 30px;
+  }
+
+  .hero-cta{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: var(--whatsapp);
+    color: #04220f;
+    font-weight: 800;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 1rem;
+    box-shadow: 0 6px 20px rgba(37,211,102,0.4);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .hero-cta:hover{
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 10px 26px rgba(37,211,102,0.55);
+  }
+
+  .delivery-note{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 10px 20px;
+    border: 1px solid rgba(255,193,69,0.4);
+    background: rgba(255,193,69,0.08);
+    border-radius: 999px;
+    color: var(--mango);
+    font-size: 0.88rem;
+    font-weight: 700;
+  }
+
+  /* ===== Pedido personalizado ===== */
+  .pedido{
+    padding: 20px 6% 80px;
+    scroll-margin-top: 90px;
+  }
+
+  .pedido-card{
+    max-width: 1100px;
+    margin: 0 auto;
+    background: linear-gradient(160deg, #18151b, #0e0d10);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 28px;
+    padding: 54px 6%;
+  }
+
+  .pedido-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items:start;
+  }
+
+  .eyebrow{
+    color: var(--mango);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--mango);
+    display:inline-block;
+    margin-bottom: 20px;
+  }
+
+  .pedido-info h2{
+    font-size: 1.8rem;
+    margin-bottom: 14px;
+    color: var(--cream);
+  }
+
+  .pedido-info > p{
+    color: var(--text-muted);
+    margin-bottom: 26px;
+    font-size: 0.96rem;
+  }
+
+  .info-block{
+    padding: 16px 0;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .info-block:last-child{
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .info-block .label{
+    display:block;
+    color: var(--strawberry);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .info-block .value{
+    font-weight: 700;
+    font-size: 0.98rem;
+    color: var(--cream);
+  }
+
+  .form-card{
+    background: rgba(255,193,69,0.05);
+    border: 1px solid rgba(255,193,69,0.35);
+    border-radius: 20px;
+    padding: 32px 28px;
+  }
+
+  .form-card h3{
+    color: var(--mango);
+    font-size: 1.25rem;
+    margin-bottom: 22px;
+  }
+
+  .field{
+    margin-bottom: 18px;
+  }
+
+  .field label{
+    display:block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  .field input,
+  .field select{
+    width: 100%;
+    background: #0e0c10;
+    border: 1px solid rgba(255,255,255,0.14);
+    color: var(--cream);
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+
+  .field input::placeholder{
+    color: #786f78;
+  }
+
+  .field input:focus,
+  .field select:focus{
+    border-color: var(--mango);
+  }
+
+  .field select{
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23ffc145' stroke-width='2' fill='none'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .submit-btn{
+    width: 100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 8px;
+    background: linear-gradient(90deg, var(--mango), var(--peach));
+    color: #2b1a02;
+    border: none;
+    padding: 14px 0;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 0.98rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 6px 18px rgba(255,193,69,0.3);
+  }
+
+  .submit-btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(255,193,69,0.45);
+  }
+
+  @media (max-width: 760px){
+    .pedido-grid{ grid-template-columns: 1fr; }
+    .pedido-card{ padding: 40px 6%; }
+  }
+
+  /* ===== Catalog ===== */
+  .catalog{
+    padding: 20px 6% 80px;
+  }
+
+  .catalog h2{
+    text-align:center;
+    font-size: 2rem;
+    margin-bottom: 8px;
+    color: var(--cream);
+  }
+
+  .catalog .subtitle{
+    text-align:center;
+    color: var(--text-muted);
+    margin-bottom: 44px;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .card{
+    background: var(--card-bg);
+    border-radius: 22px;
+    padding: 26px 22px 28px;
+    text-align:center;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+
+  .card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+  }
+
+  .card.melocoton:hover{ border-color: var(--peach); }
+  .card.fresa:hover{ border-color: var(--strawberry); }
+  .card.mango:hover{ border-color: var(--mango); }
+  .card.kiwi:hover{ border-color: var(--kiwi); }
+  .card.sinazucar:hover{ border-color: var(--plain); }
+  .card.frutosrojos:hover{ border-color: var(--berry); }
+
+  .card svg{
+    width: 150px;
+    height: 190px;
+    margin-bottom: 18px;
+    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.5));
+  }
+
+  .card h3{
+    font-size: 1.3rem;
+    margin-bottom: 6px;
+  }
+
+  .card p.desc{
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    min-height: 40px;
+  }
+
+  .price{
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 18px;
+  }
+
+  .card.melocoton .price{ color: var(--peach); }
+  .card.fresa .price{ color: var(--strawberry); }
+  .card.mango .price{ color: var(--mango); }
+  .card.kiwi .price{ color: var(--kiwi); }
+  .card.sinazucar .price{ color: var(--plain); }
+  .card.frutosrojos .price{ color: var(--berry); }
+
+  .order-btn{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    justify-content:center;
+    width: 100%;
+    background: var(--whatsapp);
+    color: #04220f;
+    font-weight: 800;
+    text-decoration:none;
+    padding: 13px 0;
+    border-radius: 999px;
+    font-size: 0.98rem;
+    transition: transform 0.15s ease, background 0.15s ease;
+    margin-top: auto;
+  }
+
+  .order-btn:hover{
+    background: var(--whatsapp-dark);
+    transform: translateY(-2px);
+  }
+
+  /* ===== Footer ===== */
+  footer{
+    text-align:center;
+    padding: 30px 6% 40px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  footer .foot-brand{
+    color: var(--mango);
+    font-weight: 700;
+  }
+
+  @media (max-width: 520px){
+    .logo{ font-size: 1.15rem; }
+  }
+
+  /* ===== Scroll progress bar ===== */
+  .scroll-progress{
+    position: fixed;
+    top: 0; left: 0;
+    height: 4px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--strawberry), var(--mango), var(--kiwi));
+    z-index: 300;
+    transition: width 0.12s ease-out;
+    box-shadow: 0 0 10px rgba(255,193,69,0.6);
+  }
+
+  /* ===== Header scroll state ===== */
+  header{ transition: background 0.3s ease, box-shadow 0.3s ease; }
+  header.scrolled{
+    background: rgba(11,11,13,0.85);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.45);
+  }
+
+  /* ===== Logo spin ===== */
+  .logo-badge{
+    animation: spinSlow 9s linear infinite;
+  }
+
+  @keyframes spinSlow{
+    from{ transform: rotate(0deg); }
+    to{ transform: rotate(360deg); }
+  }
+
+  /* ===== Shimmering gradient text ===== */
+  .hero h1, .top-banner p{
+    background-size: 200% auto;
+    animation: textShimmer 5s ease-in-out infinite alternate;
+  }
+
+  @keyframes textShimmer{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 100% 50%; }
+  }
+
+  /* ===== Delivery note pulse ===== */
+  .delivery-note{
+    animation: notePulse 2.6s ease-in-out infinite;
+  }
+
+  @keyframes notePulse{
+    0%, 100%{ box-shadow: 0 0 0 0 rgba(255,193,69,0.35); }
+    50%{ box-shadow: 0 0 0 10px rgba(255,193,69,0); }
+  }
+
+  /* ===== Hero particles ===== */
+  .hero{ position: relative; overflow: hidden; }
+  .hero-content{ position: relative; z-index: 2; }
+
+  .particles{
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .particle{
+    position: absolute;
+    bottom: -60px;
+    opacity: 0;
+    animation-name: floatUp;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+  }
+
+  @keyframes floatUp{
+    0%{ transform: translateY(0) rotate(0deg); opacity: 0; }
+    10%{ opacity: 0.9; }
+    90%{ opacity: 0.9; }
+    100%{ transform: translateY(-480px) rotate(360deg); opacity: 0; }
+  }
+
+  /* ===== Scroll reveal ===== */
+  .reveal{
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible{
+    opacity: 1;
+    transform: none;
+  }
+
+  .grid .card:nth-child(1){ transition-delay: 0s; }
+  .grid .card:nth-child(2){ transition-delay: 0.08s; }
+  .grid .card:nth-child(3){ transition-delay: 0.16s; }
+  .grid .card:nth-child(4){ transition-delay: 0.24s; }
+  .grid .card:nth-child(5){ transition-delay: 0.32s; }
+  .grid .card:nth-child(6){ transition-delay: 0.4s; }
+
+  /* ===== Card motion ===== */
+  .card svg{
+    animation: floatCup 3.2s ease-in-out infinite;
+  }
+
+  .card:nth-child(1) svg{ animation-delay: 0s; }
+  .card:nth-child(2) svg{ animation-delay: 0.25s; }
+  .card:nth-child(3) svg{ animation-delay: 0.5s; }
+  .card:nth-child(4) svg{ animation-delay: 0.75s; }
+  .card:nth-child(5) svg{ animation-delay: 1s; }
+  .card:nth-child(6) svg{ animation-delay: 1.25s; }
+
+  @keyframes floatCup{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(-10px); }
+  }
+
+  .card:nth-child(odd):hover{ transform: translateY(-10px) scale(1.03) rotate(-1deg); }
+  .card:nth-child(even):hover{ transform: translateY(-10px) scale(1.03) rotate(1deg); }
+
+  .price{ display: inline-block; transition: transform 0.25s ease; }
+  .card:hover .price{ transform: scale(1.15); }
+
+  .card h3{ transition: color 0.25s ease; }
+  .card.melocoton:hover h3{ color: var(--peach); }
+  .card.fresa:hover h3{ color: var(--strawberry); }
+  .card.mango:hover h3{ color: var(--mango); }
+  .card.kiwi:hover h3{ color: var(--kiwi); }
+  .card.sinazucar:hover h3{ color: var(--plain); }
+  .card.frutosrojos:hover h3{ color: var(--berry); }
+
+  /* ===== Button shine sweep ===== */
+  .btn-shine{ position: relative; overflow: hidden; }
+  .btn-shine::after{
+    content: '';
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.6s ease;
+  }
+  .btn-shine:hover::after{ left: 125%; }
+
+  /* ===== Submit button gradient shimmer ===== */
+  .submit-btn{
+    background-size: 200% auto;
+    animation: gradientPan 4s ease-in-out infinite alternate;
+  }
+
+  @keyframes gradientPan{
+    0%{ background-position: 0% 50%; }
+    100%{ background-position: 100% 50%; }
+  }
+
+  .field input, .field select{
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .field input:focus, .field select:focus{
+    box-shadow: 0 0 0 4px rgba(255,193,69,0.18);
+  }
+
+  /* ===== Back to top ===== */
+  .back-to-top{
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--mango);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    z-index: 100;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease, color 0.2s ease;
+  }
+
+  .back-to-top.show{
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover{
+    background: var(--mango);
+    color: #2b1a02;
+    transform: translateY(-4px);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-frame"></div>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<div class="top-banner">
+  <p>"Cada cucharada esconde trozos reales de fruta natural: una explosión de sabor hecha con amor para alegrar tu día." — Riki's Yogurt</p>
+</div>
+
+<header>
+  <div class="logo">
+    <div class="logo-badge">🍧</div>
+    Riki's <span>Yogurt</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="particles">
+    <span class="particle" style="left:4%; font-size:1.4rem; animation-duration:11s; animation-delay:-2s;">🍓</span>
+    <span class="particle" style="left:16%; font-size:1.9rem; animation-duration:14s; animation-delay:-6s;">🥭</span>
+    <span class="particle" style="left:30%; font-size:1.3rem; animation-duration:10s; animation-delay:-4s;">🍑</span>
+    <span class="particle" style="left:46%; font-size:1.6rem; animation-duration:13s; animation-delay:-1s;">🥝</span>
+    <span class="particle" style="left:61%; font-size:1.4rem; animation-duration:12s; animation-delay:-8s;">🍇</span>
+    <span class="particle" style="left:76%; font-size:1.7rem; animation-duration:15s; animation-delay:-3s;">🍒</span>
+    <span class="particle" style="left:90%; font-size:1.3rem; animation-duration:11s; animation-delay:-5s;">🍊</span>
+  </div>
+  <div class="hero-content">
+    <h1>Riki's Yogurt</h1>
+    <p>Yogures artesanales, frescos y cremosos, con trozos reales de fruta natural en cada cucharada. Elige tu sabor favorito y haz tu pedido en nuestra encuesta.</p>
+    <a class="hero-cta btn-shine" href="#pedido" onclick="irAEncuesta(event)">
+      Ir a la encuesta
+    </a>
+    <br>
+    <span class="delivery-note">🛵 Domicilios únicamente en la Unidad Residencial Cañaverales 5</span>
+  </div>
+</section>
+
+<section class="catalog" id="catalogo">
+  <h2 class="reveal">Nuestro Catálogo</h2>
+  <p class="subtitle reveal">Elige tu yogur y pide en un solo clic</p>
+
+  <div class="grid">
+
+    <!-- Melocotón -->
+    <div class="card melocoton reveal">
+      <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupM" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="100%" stop-color="#ffd9a0"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="#ffb15e"/>
+        <path d="M22 40 L34 165 Q70 180 106 165 L118 40 Z" fill="url(#cupM)" stroke="#e08a3c" stroke-width="2"/>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="none" stroke="#e08a3c" stroke-width="2"/>
+        <circle cx="52" cy="30" r="14" fill="#ffb15e"/>
+        <circle cx="72" cy="24" r="17" fill="#ffa94d"/>
+        <circle cx="92" cy="32" r="13" fill="#ffb15e"/>
+        <path d="M72 12 q3 -8 10 -8" stroke="#7a9c3f" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <ellipse cx="88" cy="6" rx="8" ry="4" fill="#7a9c3f" transform="rotate(30 88 6)"/>
+      </svg>
+      <h3>Melocotón</h3>
+      <p class="desc">Yogur cremoso con trozos naturales de melocotón dulce.</p>
+      <div class="price">$10.000</div>
+      <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Melocotón')">Pedir ya</a>
+    </div>
+
+    <!-- Fresa -->
+    <div class="card fresa reveal">
+      <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupF" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="100%" stop-color="#ffc9d6"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="#ff6f91"/>
+        <path d="M22 40 L34 165 Q70 180 106 165 L118 40 Z" fill="url(#cupF)" stroke="#d6486a" stroke-width="2"/>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="none" stroke="#d6486a" stroke-width="2"/>
+        <path d="M70 14 C58 14 50 24 52 34 C54 44 64 50 70 52 C76 50 86 44 88 34 C90 24 82 14 70 14 Z" fill="#ff6f91"/>
+        <circle cx="62" cy="26" r="1.6" fill="#fff3e0"/>
+        <circle cx="70" cy="22" r="1.6" fill="#fff3e0"/>
+        <circle cx="78" cy="27" r="1.6" fill="#fff3e0"/>
+        <circle cx="65" cy="36" r="1.6" fill="#fff3e0"/>
+        <circle cx="75" cy="37" r="1.6" fill="#fff3e0"/>
+        <path d="M70 14 q-4 -8 4 -10 q4 6 -4 10" fill="#7a9c3f"/>
+      </svg>
+      <h3>Fresa</h3>
+      <p class="desc">Yogur suave con pulpa real de fresa fresca.</p>
+      <div class="price">$10.000</div>
+      <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Fresa')">Pedir ya</a>
+    </div>
+
+    <!-- Mango -->
+    <div class="card mango reveal">
+      <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupG" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="100%" stop-color="#ffe08a"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="#ffc145"/>
+        <path d="M22 40 L34 165 Q70 180 106 165 L118 40 Z" fill="url(#cupG)" stroke="#e0a020" stroke-width="2"/>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="none" stroke="#e0a020" stroke-width="2"/>
+        <path d="M50 34 C50 18 66 10 82 16 C94 20 96 34 88 42 C78 52 58 50 50 34 Z" fill="#ffc145"/>
+        <path d="M60 20 C68 18 78 22 82 30" stroke="#e0821e" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <path d="M78 8 q6 4 4 12" stroke="#7a9c3f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <h3>Mango</h3>
+      <p class="desc">Yogur tropical con la dulzura natural del mango maduro.</p>
+      <div class="price">$10.000</div>
+      <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Mango')">Pedir ya</a>
+    </div>
+
+    <!-- Kiwi -->
+    <div class="card kiwi reveal">
+      <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupK" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="100%" stop-color="#d8f0a0"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="#a9d94c"/>
+        <path d="M22 40 L34 165 Q70 180 106 165 L118 40 Z" fill="url(#cupK)" stroke="#7fae2e" stroke-width="2"/>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="none" stroke="#7fae2e" stroke-width="2"/>
+        <circle cx="70" cy="26" r="18" fill="#c9e77a" stroke="#8a5a2b" stroke-width="2"/>
+        <circle cx="70" cy="26" r="10" fill="#e9f5c8"/>
+        <circle cx="66" cy="22" r="1.3" fill="#3a2a12"/>
+        <circle cx="74" cy="22" r="1.3" fill="#3a2a12"/>
+        <circle cx="70" cy="27" r="1.3" fill="#3a2a12"/>
+        <circle cx="64" cy="29" r="1.3" fill="#3a2a12"/>
+        <circle cx="76" cy="29" r="1.3" fill="#3a2a12"/>
+        <circle cx="70" cy="33" r="1.3" fill="#3a2a12"/>
+      </svg>
+      <h3>Kiwi</h3>
+      <p class="desc">Yogur refrescante con pulpa natural de kiwi.</p>
+      <div class="price">$10.000</div>
+      <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Kiwi')">Pedir ya</a>
+    </div>
+
+    <!-- Sin azúcar -->
+    <div class="card sinazucar reveal">
+      <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupS" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fffdf8"/>
+            <stop offset="100%" stop-color="#f0e6d2"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="#f5ead8"/>
+        <path d="M22 40 L34 165 Q70 180 106 165 L118 40 Z" fill="url(#cupS)" stroke="#cbb99a" stroke-width="2"/>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="none" stroke="#cbb99a" stroke-width="2"/>
+        <circle cx="70" cy="26" r="16" fill="#fffdf8" stroke="#cbb99a" stroke-width="2"/>
+        <path d="M62 26 l6 6 12 -12" fill="none" stroke="#a9d94c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Sin azúcar</h3>
+      <p class="desc">Yogur natural sin azúcar añadida, ideal para un estilo de vida saludable.</p>
+      <div class="price">$10.000</div>
+      <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Sin azúcar')">Pedir ya</a>
+    </div>
+
+    <!-- Frutos rojos -->
+    <div class="card frutosrojos reveal">
+      <svg viewBox="0 0 140 180" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cupR" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fff3e0"/>
+            <stop offset="100%" stop-color="#f5b8c6"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="#d63a6e"/>
+        <path d="M22 40 L34 165 Q70 180 106 165 L118 40 Z" fill="url(#cupR)" stroke="#a1204c" stroke-width="2"/>
+        <ellipse cx="70" cy="40" rx="52" ry="14" fill="none" stroke="#a1204c" stroke-width="2"/>
+        <circle cx="54" cy="30" r="11" fill="#d63a6e"/>
+        <circle cx="70" cy="22" r="13" fill="#8e2a5e"/>
+        <circle cx="86" cy="30" r="11" fill="#e0537f"/>
+        <circle cx="63" cy="34" r="9" fill="#a1204c"/>
+        <path d="M70 10 q4 -6 10 -4" stroke="#7a9c3f" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+      <h3>Frutos rojos</h3>
+      <p class="desc">Mezcla de fresa, mora y arándano en una explosión de sabor.</p>
+      <div class="price">$10.000</div>
+      <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Frutos rojos')">Pedir ya</a>
+    </div>
+
+  </div>
+</section>
+
+<section class="pedido" id="pedido">
+  <div class="pedido-card reveal">
+    <div class="pedido-grid">
+
+      <div class="pedido-info">
+        <span class="eyebrow">Pedido</span>
+        <h2>Haz tu pedido personalizado</h2>
+        <p>Completa el formulario con tu sabor favorito, tu nombre y tu apartamento, y te contactaremos directamente por WhatsApp, o escríbenos tú mismo/a cuando prefieras.</p>
+
+        <div class="info-block">
+          <span class="label">Contacto</span>
+          <span class="value">📞 +57 323 5996001</span>
+        </div>
+        <div class="info-block">
+          <span class="label">Atención</span>
+          <span class="value">Vía WhatsApp, con respuesta directa y personalizada</span>
+        </div>
+        <div class="info-block">
+          <span class="label">Cobertura de domicilios</span>
+          <span class="value">Únicamente Unidad Residencial Cañaverales 5</span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h3>Elige tu yogur</h3>
+
+        <div class="field">
+          <label for="pedido-nombre">Nombre completo</label>
+          <input type="text" id="pedido-nombre" placeholder="Tu nombre">
+        </div>
+
+        <div class="field">
+          <label for="pedido-apto">Apartamento (Cañaverales 5)</label>
+          <input type="text" id="pedido-apto" placeholder="Ej: Torre 3 Apto 502">
+        </div>
+
+        <div class="field">
+          <label for="pedido-sabor">Sabor de yogur</label>
+          <select id="pedido-sabor">
+            <option value="Melocotón">Melocotón</option>
+            <option value="Fresa">Fresa</option>
+            <option value="Mango">Mango</option>
+            <option value="Kiwi">Kiwi</option>
+            <option value="Sin azúcar">Sin azúcar</option>
+            <option value="Frutos rojos">Frutos rojos</option>
+          </select>
+        </div>
+
+        <button type="button" class="submit-btn btn-shine" onclick="pedirYogurtWhatsApp()">
+          Pedir vía WhatsApp
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="#2b1a02"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.27-1.38a9.9 9.9 0 0 0 4.77 1.22h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm0 18.1h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.05-.2-.31a8.19 8.19 0 0 1-1.26-4.4c0-4.53 3.69-8.22 8.24-8.22 2.2 0 4.27.86 5.82 2.42a8.16 8.16 0 0 1 2.41 5.81c0 4.53-3.69 8.26-8.22 8.26zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.25-.64.81-.78.97-.14.17-.29.19-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.36 1 2.53.12.17 1.73 2.64 4.2 3.7.59.25 1.05.4 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.08.15-1.18-.06-.11-.23-.17-.48-.29z"/></svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><span class="foot-brand">Riki's Yogurt</span> — Yogures naturales y frescos.</p>
+  <p>Pedidos por WhatsApp: +57 323 5996001</p>
+  <p>Domicilios disponibles únicamente en la Unidad Residencial Cañaverales 5.</p>
+</footer>
+
+<button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Volver arriba">↑</button>
+
+<script>
+// Barra de progreso de scroll + header y botón "volver arriba"
+window.addEventListener('scroll', function(){
+  var scrollTop = window.scrollY || document.documentElement.scrollTop;
+  var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var pct = height > 0 ? (scrollTop / height) * 100 : 0;
+
+  var bar = document.getElementById('scrollProgress');
+  if(bar) bar.style.width = pct + '%';
+
+  var hdr = document.querySelector('header');
+  if(hdr){
+    if(scrollTop > 10) hdr.classList.add('scrolled');
+    else hdr.classList.remove('scrolled');
+  }
+
+  var backBtn = document.getElementById('backToTop');
+  if(backBtn){
+    if(scrollTop > 400) backBtn.classList.add('show');
+    else backBtn.classList.remove('show');
+  }
+});
+
+function scrollToTop(){
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Animaciones de aparición al hacer scroll
+var revealEls = document.querySelectorAll('.reveal');
+var revealObserver = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+revealEls.forEach(function(el){ revealObserver.observe(el); });
+</script>
+
+<script>
+function irAEncuesta(event){
+  if(event) event.preventDefault();
+  var destino = document.getElementById('pedido');
+  if(destino) destino.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function seleccionarSabor(event, sabor){
+  if(event) event.preventDefault();
+  var select = document.getElementById('pedido-sabor');
+  if(select) select.value = sabor;
+  irAEncuesta();
+}
+
+function pedirYogurtWhatsApp(){
+  var nombre = document.getElementById('pedido-nombre').value.trim();
+  var apto = document.getElementById('pedido-apto').value.trim();
+  var sabor = document.getElementById('pedido-sabor').value;
+
+  if(!nombre || !apto){
+    alert('Por favor completa tu nombre y tu apartamento antes de pedir.');
+    return;
+  }
+
+  var mensaje = 'Hola, soy ' + nombre + ', del apartamento ' + apto + ' en la Unidad Residencial Cañaverales 5. Quiero pedir un yogur de ' + sabor + '.';
+  var url = 'https://wa.me/573235996001?text=' + encodeURIComponent(mensaje);
+  window.open(url, '_blank');
+}
+</script>
+
+</body>
+</html>
