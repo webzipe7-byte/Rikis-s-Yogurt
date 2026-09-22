@@ -104,6 +104,41 @@
 
   .logo span{ color: var(--mango); }
 
+  .webzipe-link{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #f5f5f5;
+    text-decoration: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .webzipe-link:hover{
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+
+  .webzipe-badge{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #0b1220;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow: hidden;
+    box-shadow: 0 0 14px rgba(59,110,255,0.35);
+  }
+
+  .webzipe-badge img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   /* ===== Hero ===== */
   .hero{
     text-align:center;
@@ -437,6 +472,11 @@
   footer .foot-brand{
     color: var(--mango);
     font-weight: 700;
+    text-decoration: none;
+  }
+
+  footer a.foot-brand:hover{
+    text-decoration: underline;
   }
 
   @media (max-width: 520px){
@@ -659,6 +699,10 @@
     <div class="logo-badge">🍧</div>
     Riki's <span>Yogurt</span>
   </div>
+  <a class="webzipe-link" href="https://webzipe7-byte.github.io/WebZipe/" target="_blank" rel="noopener">
+    <div class="webzipe-badge"><img src="webzipe-logo.png" alt="WebZipe logo"></div>
+    WebZipe
+  </a>
 </header>
 
 <section class="hero">
@@ -678,7 +722,7 @@
       Ir a la encuesta
     </a>
     <br>
-    <span class="delivery-note">🛵 Domicilios únicamente en la Unidad Residencial Cañaverales 5</span>
+    <span class="delivery-note">🛵 Domicilios únicamente en las Unidades Residenciales Cañaverales 5 y Cañaverales 6</span>
   </div>
 </section>
 
@@ -708,7 +752,7 @@
       </svg>
       <h3>Melocotón</h3>
       <p class="desc">Yogur cremoso con trozos naturales de melocotón dulce.</p>
-      <div class="price">$10.000</div>
+      <div class="price">$15.000</div>
       <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Melocotón')">Pedir ya</a>
     </div>
 
@@ -734,7 +778,7 @@
       </svg>
       <h3>Fresa</h3>
       <p class="desc">Yogur suave con pulpa real de fresa fresca.</p>
-      <div class="price">$10.000</div>
+      <div class="price">$15.000</div>
       <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Fresa')">Pedir ya</a>
     </div>
 
@@ -756,7 +800,7 @@
       </svg>
       <h3>Mango</h3>
       <p class="desc">Yogur tropical con la dulzura natural del mango maduro.</p>
-      <div class="price">$10.000</div>
+      <div class="price">$15.000</div>
       <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Mango')">Pedir ya</a>
     </div>
 
@@ -783,7 +827,7 @@
       </svg>
       <h3>Kiwi</h3>
       <p class="desc">Yogur refrescante con pulpa natural de kiwi.</p>
-      <div class="price">$10.000</div>
+      <div class="price">$15.000</div>
       <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Kiwi')">Pedir ya</a>
     </div>
 
@@ -804,7 +848,7 @@
       </svg>
       <h3>Sin azúcar</h3>
       <p class="desc">Yogur natural sin azúcar añadida, ideal para un estilo de vida saludable.</p>
-      <div class="price">$10.000</div>
+      <div class="price">$15.500</div>
       <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Sin azúcar')">Pedir ya</a>
     </div>
 
@@ -828,7 +872,7 @@
       </svg>
       <h3>Frutos rojos</h3>
       <p class="desc">Mezcla de fresa, mora y arándano en una explosión de sabor.</p>
-      <div class="price">$10.000</div>
+      <div class="price">$15.000</div>
       <a class="order-btn btn-shine" href="#pedido" onclick="seleccionarSabor(event, 'Frutos rojos')">Pedir ya</a>
     </div>
 
@@ -854,7 +898,7 @@
         </div>
         <div class="info-block">
           <span class="label">Cobertura de domicilios</span>
-          <span class="value">Únicamente Unidad Residencial Cañaverales 5</span>
+          <span class="value">Únicamente Unidades Residenciales Cañaverales 5 y Cañaverales 6</span>
         </div>
       </div>
 
@@ -867,7 +911,15 @@
         </div>
 
         <div class="field">
-          <label for="pedido-apto">Apartamento (Cañaverales 5)</label>
+          <label for="pedido-unidad">Unidad residencial</label>
+          <select id="pedido-unidad">
+            <option value="Cañaverales 5">Cañaverales 5</option>
+            <option value="Cañaverales 6">Cañaverales 6</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="pedido-apto">Apartamento</label>
           <input type="text" id="pedido-apto" placeholder="Ej: Torre 3 Apto 502">
         </div>
 
@@ -880,6 +932,14 @@
             <option value="Kiwi">Kiwi</option>
             <option value="Sin azúcar">Sin azúcar</option>
             <option value="Frutos rojos">Frutos rojos</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="pedido-pago">Método de pago</label>
+          <select id="pedido-pago">
+            <option value="Nequi">Nequi</option>
+            <option value="Efectivo">Efectivo</option>
           </select>
         </div>
 
@@ -896,7 +956,8 @@
 <footer>
   <p><span class="foot-brand">Riki's Yogurt</span> — Yogures naturales y frescos.</p>
   <p>Pedidos por WhatsApp: +57 323 5996001</p>
-  <p>Domicilios disponibles únicamente en la Unidad Residencial Cañaverales 5.</p>
+  <p>Domicilios disponibles únicamente en las Unidades Residenciales Cañaverales 5 y Cañaverales 6.</p>
+  <p>Esta página fue hecha por <a class="foot-brand" href="https://webzipe7-byte.github.io/WebZipe/" target="_blank" rel="noopener">WebZipe</a></p>
 </footer>
 
 <button class="back-to-top" id="backToTop" onclick="scrollToTop()" aria-label="Volver arriba">↑</button>
@@ -957,15 +1018,17 @@ function seleccionarSabor(event, sabor){
 
 function pedirYogurtWhatsApp(){
   var nombre = document.getElementById('pedido-nombre').value.trim();
+  var unidad = document.getElementById('pedido-unidad').value;
   var apto = document.getElementById('pedido-apto').value.trim();
   var sabor = document.getElementById('pedido-sabor').value;
+  var pago = document.getElementById('pedido-pago').value;
 
   if(!nombre || !apto){
     alert('Por favor completa tu nombre y tu apartamento antes de pedir.');
     return;
   }
 
-  var mensaje = 'Hola, soy ' + nombre + ', del apartamento ' + apto + ' en la Unidad Residencial Cañaverales 5. Quiero pedir un yogur de ' + sabor + '.';
+  var mensaje = 'Hola, soy ' + nombre + ', del apartamento ' + apto + ' en la Unidad Residencial ' + unidad + '. Quiero pedir un yogur de ' + sabor + '. Método de pago: ' + pago + '.';
   var url = 'https://wa.me/573235996001?text=' + encodeURIComponent(mensaje);
   window.open(url, '_blank');
 }
