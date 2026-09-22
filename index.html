@@ -100,6 +100,13 @@
     justify-content:center;
     font-size: 1.2rem;
     box-shadow: 0 0 18px rgba(255,177,94,0.35);
+    overflow: hidden;
+  }
+
+  .logo-badge img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .logo span{ color: var(--mango); }
@@ -502,16 +509,6 @@
     box-shadow: 0 4px 24px rgba(0,0,0,0.45);
   }
 
-  /* ===== Logo spin ===== */
-  .logo-badge{
-    animation: spinSlow 9s linear infinite;
-  }
-
-  @keyframes spinSlow{
-    from{ transform: rotate(0deg); }
-    to{ transform: rotate(360deg); }
-  }
-
   /* ===== Shimmering gradient text ===== */
   .hero h1, .top-banner p{
     background-size: 200% auto;
@@ -696,7 +693,7 @@
 
 <header>
   <div class="logo">
-    <div class="logo-badge">🍧</div>
+    <div class="logo-badge"><img src="Logo principal@1x.png" alt="Riki's Yogurt logo"></div>
     Riki's <span>Yogurt</span>
   </div>
   <a class="webzipe-link" href="https://webzipe7-byte.github.io/WebZipe/" target="_blank" rel="noopener">
@@ -911,6 +908,11 @@
         </div>
 
         <div class="field">
+          <label for="pedido-celular">Tu número de celular</label>
+          <input type="tel" id="pedido-celular" placeholder="Ej: 300 123 4567" inputmode="numeric" autocomplete="tel" maxlength="15">
+        </div>
+
+        <div class="field">
           <label for="pedido-unidad">Unidad residencial</label>
           <select id="pedido-unidad">
             <option value="Cañaverales 5">Cañaverales 5</option>
@@ -1018,17 +1020,23 @@ function seleccionarSabor(event, sabor){
 
 function pedirYogurtWhatsApp(){
   var nombre = document.getElementById('pedido-nombre').value.trim();
+  var celular = document.getElementById('pedido-celular').value.trim();
   var unidad = document.getElementById('pedido-unidad').value;
   var apto = document.getElementById('pedido-apto').value.trim();
   var sabor = document.getElementById('pedido-sabor').value;
   var pago = document.getElementById('pedido-pago').value;
 
-  if(!nombre || !apto){
-    alert('Por favor completa tu nombre y tu apartamento antes de pedir.');
+  if(!nombre || !celular || !apto){
+    alert('Por favor completa tu nombre, tu número de celular y tu apartamento antes de pedir.');
     return;
   }
 
-  var mensaje = 'Hola, soy ' + nombre + ', del apartamento ' + apto + ' en la Unidad Residencial ' + unidad + '. Quiero pedir un yogur de ' + sabor + '. Método de pago: ' + pago + '.';
+  if(celular.replace(/\D/g, '').length < 10){
+    alert('Por favor escribe un número de celular válido (10 dígitos).');
+    return;
+  }
+
+  var mensaje = 'Hola, soy ' + nombre + ', del apartamento ' + apto + ' en la Unidad Residencial ' + unidad + '. Mi número de celular es ' + celular + '. Quiero pedir un yogur de ' + sabor + '. Método de pago: ' + pago + '.';
   var url = 'https://wa.me/573235996001?text=' + encodeURIComponent(mensaje);
   window.open(url, '_blank');
 }
